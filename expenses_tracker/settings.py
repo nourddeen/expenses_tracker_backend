@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-!cz$kyt92x$t_(d53!2lsi8u7158s%)$q3qb(z@^xe=3bm&khg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['vast-meadow-87338.herokuapp.com/']
+ALLOWED_HOSTS = ['localhost','vast-meadow-87338.herokuapp.com']
 
 
 # Application definition
@@ -91,7 +91,7 @@ DATABASES = {
         'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'django_api',
-        'USER': 'nour',
+        'USER': '',
         'PASSWORD': '',
         'HOST': 'localhost'
     }
