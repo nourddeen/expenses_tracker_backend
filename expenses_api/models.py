@@ -4,7 +4,7 @@ from django.db import models
 # 
 class Category(models.Model):
     # expense = models.ForeignKey(Expenses, on_delete=models.CASCADE)
-    name = models.CharField(max_length=40)
+    name = models.CharField(max_length=40 , unique=True)
 
 class Expenses(models.Model):
     date = models.DateField()
