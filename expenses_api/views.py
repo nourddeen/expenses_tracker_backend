@@ -1,21 +1,67 @@
-from rest_framework import generics
-from .serializers import ExpensesSerializer,CategorySerializer
-from .models import Expenses, Category
+from rest_framework import generics, permissions, authentication
+from .serializers import ExpenseSerializer,CategorySerializer
+from .models import Expense, Category
 
-class ExpensesList(generics.ListCreateAPIView):
-    queryset = Expenses.objects.all().order_by('id') # tell django how to retrieve all objects from the DB, order by id ascending
-    serializer_class = ExpensesSerializer # tell django what serializer to use
+class ExpenseList(generics.ListCreateAPIView):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    authentication_classes = [
+        authentication.TokenAuthentication, 
+        authentication.SessionAuthentication
+    ]
+    serializer_class = ExpenseSerializer
 
-class ExpensesDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Expenses.objects.all().order_by('id')
-    serializer_class = ExpensesSerializer
+    def get_queryset(self):
+        return Expense.objects.filter(user_id=self.request.user.id)
+
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)
+
+class ExpenseDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    authentication_classes = [
+        authentication.TokenAuthentication, 
+        authentication.SessionAuthentication
+    ]
+    serializer_class = ExpenseSerializer
+
+    def get_queryset(self):
+        return Expense.objects.filter(user_id=self.request.user.id)
+
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)
 
 class CategoryList(generics.ListCreateAPIView):
-    queryset = Category.objects.all().order_by('id') # tell django how to retrieve all objects from the DB, order by id ascending
-    serializer_class = CategorySerializer # tell django what serializer to use
-
-class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Category.objects.all().order_by('id')
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    authentication_classes = [
+        authentication.TokenAuthentication, 
+        authentication.SessionAuthentication
+    ]
     serializer_class = CategorySerializer
 
+    def get_queryset(self):
+        return Category.objects.filter(user_id=self.request.user.id)
 
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)
+
+class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    authentication_classes = [
+        authentication.TokenAuthentication, 
+        authentication.SessionAuthentication
+    ]
+    serializer_class = CategorySerializer
+
+    def get_queryset(self):
+        return Category.objects.filter(user_id=self.request.user.id)
+
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)

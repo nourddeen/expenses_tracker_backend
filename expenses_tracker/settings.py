@@ -15,8 +15,8 @@ import dj_database_url # add this
 import os # add this
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # edit this var
-# BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # edit this var
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -34,15 +34,26 @@ ALLOWED_HOSTS = ['localhost','vast-meadow-87338.herokuapp.com']
 
 INSTALLED_APPS = [
     'corsheaders',
-    'rest_framework',  # add this
-    'expenses_api', # add this
+    'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'expenses_api', # custom app
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'dj_rest_auth.registration',
 ]
+
+SITE_ID=1
+
+# console backend for testing only
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware', # this makes the cors package run for all requests.  A bit like app.use() in express    
@@ -85,17 +96,17 @@ WSGI_APPLICATION = 'expenses_tracker.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
-        'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_api',
-        'USER': 'postgres',
-        'PASSWORD': '',
-        'HOST': 'localhost'
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
+    #     'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'django_api',
+    #     'USER': 'postgres',
+    #     'PASSWORD': '',
+    #     'HOST': 'localhost'
+    # }
 }
 
 db_from_env = dj_database_url.config(conn_max_age=600) # add this
