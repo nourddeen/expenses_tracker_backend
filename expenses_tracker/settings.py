@@ -45,11 +45,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'allauth',
+    'allauth.account',
     'dj_rest_auth.registration',
 ]
 
 # REST_USE_JWT = True
 
+SITE_ID = 1
 
 # console backend for testing only
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
