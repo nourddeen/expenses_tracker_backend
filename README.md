@@ -12,6 +12,6 @@ https://dashboard.heroku.com/apps/vast-meadow-87338/api/(expenses)(category)
 
 - login and user function.
 - might add more features. (track income, calculete taxes, graphs, month by month expenses)
-- make the app moble friendly. 
+
 
 
