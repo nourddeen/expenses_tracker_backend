@@ -1,5 +1,5 @@
 from rest_framework import serializers 
-from .models import Expense, Category
+from .models import Expense, Category, Profile
 
 # class ExpensesSerializer(serializers.ModelSerializer): # serializers.ModelSerializer just tells django to convert sql to JSON
 #     class Meta:
@@ -15,3 +15,10 @@ class CategorySerializer(serializers.ModelSerializer): # serializers.ModelSerial
     class Meta:
         model = Category # tell django which model to use
         fields = ('id', 'name',) # tell django which fields to include
+
+class ProfileSerializer(serializers.ModelSerializer): # serializers.ModelSerializer just tells django to convert sql to JSON
+    class Meta:
+        model = Profile # tell django which model to use
+        fields = ('id','income',) # tell django which fields to include
+
+        
