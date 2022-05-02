@@ -52,7 +52,6 @@ INSTALLED_APPS = [
 
 # REST_USE_JWT = True
 
-SITE_ID=1
 
 # console backend for testing only
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
