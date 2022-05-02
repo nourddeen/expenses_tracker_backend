@@ -107,7 +107,7 @@ DATABASES = {
         'NAME': 'django_api',
         'USER': 'postgres',
         'PASSWORD': '',
-        'HOST': 'vast-meadow-87338.herokuapp.com'
+        'HOST': 'localhost'
     }
 }
 
