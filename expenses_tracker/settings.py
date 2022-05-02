@@ -34,15 +34,28 @@ ALLOWED_HOSTS = ['localhost','vast-meadow-87338.herokuapp.com']
 
 INSTALLED_APPS = [
     'corsheaders',
-    'rest_framework',  # add this
-    'expenses_api', # add this
+    'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'expenses_api', # custom app
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'dj_rest_auth.registration',
 ]
+
+# REST_USE_JWT = True
+
+SITE_ID=1
+
+# console backend for testing only
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware', # this makes the cors package run for all requests.  A bit like app.use() in express    

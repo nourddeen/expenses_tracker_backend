@@ -1,21 +1,115 @@
-from rest_framework import generics
-from .serializers import ExpensesSerializer,CategorySerializer
-from .models import Expenses, Category
+from rest_framework import generics, permissions, authentication
+from .serializers import ExpenseSerializer,CategorySerializer, ProfileSerializer
+from .models import Expense, Category, Profile
 
-class ExpensesList(generics.ListCreateAPIView):
-    queryset = Expenses.objects.all().order_by('id') # tell django how to retrieve all objects from the DB, order by id ascending
-    serializer_class = ExpensesSerializer # tell django what serializer to use
 
-class ExpensesDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Expenses.objects.all().order_by('id')
-    serializer_class = ExpensesSerializer
+
+class ExpenseList(generics.ListCreateAPIView):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    authentication_classes = [
+        authentication.TokenAuthentication, 
+        authentication.SessionAuthentication
+    ]
+    serializer_class = ExpenseSerializer
+
+    def get_queryset(self):
+        params = self.request.query_params
+
+        queryset = Expense.objects.filter(user_id=self.request.user.id)
+        if params.get('from_date', None) is not None and params.get('to_date', None) is not None:
+            queryset = queryset.filter(date__range=(params['from_date'], params['to_date']))
+
+        if params.get('from_date', None) is not None and params.get('to_date', None) is None:
+            queryset = queryset.filter(date__gte=params['from_date'])
+
+        if params.get('to_date', None) is not None and params.get('from_date', None) is None:
+            queryset = queryset.filter(date__lte=params['to_date'])
+
+        return queryset
+
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)
+
+class ExpenseDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    authentication_classes = [
+        authentication.TokenAuthentication, 
+        authentication.SessionAuthentication
+    ]
+    serializer_class = ExpenseSerializer
+
+    def get_queryset(self):
+        return Expense.objects.filter(user_id=self.request.user.id)
+
+
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)
 
 class CategoryList(generics.ListCreateAPIView):
-    queryset = Category.objects.all().order_by('id') # tell django how to retrieve all objects from the DB, order by id ascending
-    serializer_class = CategorySerializer # tell django what serializer to use
-
-class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Category.objects.all().order_by('id')
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    authentication_classes = [
+        authentication.TokenAuthentication, 
+        authentication.SessionAuthentication
+    ]
     serializer_class = CategorySerializer
 
+    def get_queryset(self):
+        return Category.objects.filter(user_id=self.request.user.id)
 
+
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)
+
+class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    authentication_classes = [
+        authentication.TokenAuthentication, 
+        authentication.SessionAuthentication
+    ]
+    serializer_class = CategorySerializer
+
+    def get_queryset(self):
+        return Category.objects.filter(user_id=self.request.user.id)
+
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)
+
+class ProfileList(generics.ListCreateAPIView):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    authentication_classes = [
+        authentication.TokenAuthentication, 
+        authentication.SessionAuthentication
+    ]
+    serializer_class = ProfileSerializer
+
+    def get_queryset(self):
+        return Profile.objects.filter(user_id=self.request.user.id)
+
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)
+
+class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    authentication_classes = [
+        authentication.TokenAuthentication, 
+        authentication.SessionAuthentication
+    ]
+    serializer_class = ProfileSerializer
+
+    def get_queryset(self):
+        return Profile.objects.filter(user_id=self.request.user.id)
+
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)
